@@ -1,0 +1,42 @@
+<nsx:items>
+ <nsx:item id="2445456">
+  <nsx:category>Jeans</nsx:category>
+  <nsx:description>Bootleg Front Washed</nsx:description>
+  <nsx:images>
+    <nsx:image type="1" url="https://sample.com/img
+    /2445456_Image_1.jpg"/>
+    <nsx:image type="3" url="https://sample.com/img
+    /2445456_Image_3.jpg"/>
+  </nsx:images>
+  <nsx:prices>
+    <nsx:price>
+      <nsx:currency>EUR</nsx:currency>
+      <nsx:value>49.95</nsx:value>
+    </nsx:price>
+    <nsx:price>
+      <nsx:currency>DKK</nsx:currency>
+      <nsx:value>445.60</nsx:value>
+    </nsx:price>
+  </nsx:prices>
+ </nsx:item>
+ <nsx:item id="2445346">
+  <nsx:category>Boot</nsx:category>
+  <nsx:description>Bootleg Front Boots</nsx:description>
+  <nsx:images>
+    <nsx:image type="1" url="https://sample.com/img
+    /2445456_Image_1.jpg"/>
+    <nsx:image type="3" url="https://sample.com/img
+    /2445456_Image_3.jpg"/>
+  </nsx:images>
+  <nsx:prices>
+    <nsx:price>
+      <nsx:currency>EUR</nsx:currency>
+      <nsx:value>50.95</nsx:value>
+    </nsx:price>
+    <nsx:price>
+      <nsx:currency>NGN</nsx:currency>
+      <nsx:value>50000.00</nsx:value>
+    </nsx:price>
+  </nsx:prices>
+ </nsx:item>
+</nsx:items>
