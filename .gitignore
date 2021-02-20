@@ -1,0 +1,15 @@
+# virtual env
+converter/
+transformer/
+
+# env file
+.env
+
+# pycache
+__pycache__/
+
+# pytest cache
+.pytest_cache/
+
+#vscode
+.vscode/
