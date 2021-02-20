@@ -18,7 +18,7 @@ def transform_file(file_key):
   # read xml content from the s3 bucket
   xml_content = fetch_file_content_from_bucket(
     bucket_name=CLIENT_S3_BUCKET,
-    s3_filename=file_key
+    file_key=file_key
   )
 
   # convert to JSON

@@ -3,10 +3,10 @@ import logging
 import boto3
 import json
 import localstack_client.session
+import pytz
 
 from dotenv import load_dotenv 
 from datetime import datetime, timedelta
-from dateutil import parser
 from bs4 import BeautifulSoup
 
 
@@ -137,10 +137,10 @@ def download_file_from_bucket(s3_connection=None, bucket_name=None, file_key=Non
 
 
 def fetch_file_content_from_bucket(s3_connection=None, bucket_name=None, file_key=None):
+    """Fetch the content of the file without downloading it"""
     if not s3_connection:
         s3_connection = session.resource('s3')
 
-    """Fetch the content of the file without downloading it"""
     try:
         return s3_connection.Object(bucket_name, file_key).get()['Body'].read()
     except Exception as e:
@@ -159,10 +159,11 @@ def get_files_to_transform(s3_connection=None, bucket_name=None):
 
         files_to_download = []
         for obj in objects:
+            last_modified = obj.last_modified.replace(tzinfo=pytz.UTC)
             if is_not_production:
                 files_to_download.append(obj.key)
             # collect files that are less than three hours old for production
-            elif parser.parse(obj.last_modified) > last_download_time:
+            elif last_modified > last_download_time.replace(tzinfo=pytz.UTC):
                 files_to_download.append(obj.key)
 
         return  files_to_download
