@@ -4,7 +4,7 @@ from flask import Flask
 from dotenv import load_dotenv 
 from apscheduler.schedulers.background import BackgroundScheduler
 
-from service import init
+from services import init
 from transformer import handle_data_transform
 
 load_dotenv(verbose=True)
