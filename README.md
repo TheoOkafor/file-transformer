@@ -12,6 +12,12 @@ The **handle_data_transform** function is responsible for fetching the client's 
 
 ![the flow for the system](https://res.cloudinary.com/teamhaven/image/upload/v1613888641/png.png)
 
+## The justifications for my solution
+I used Flask for the development because of the cron job. I needed the scripts to be kept alive and to be terminated by shutting down the flask server. I considered cronTab, but it didn't work well with docker and my machine.
+
+Another reason why I opted for this implementation was because it is simpler to implement and to manage.
+I also know that I can expose REST API endpoints for the cron manager - apscheduler, and manage the cron job via secure APIs calls whenever necessary. This might be useful if I need to extend the time or vice versa.
+
 ## Running the app (locally)
 The app runs in a Flask server, with a chron job that runs after each `number_of_hours`. The cron job gets terminated when the server is stopped.
 
@@ -23,6 +29,8 @@ the sample credentials are in the `.env.example` file
 ```bash
 docker-compose up --build 
 ```
+A test file is automatically uploaded to the localstack s3 upon starting the app.
+
 
 ## Running test
 You can run test locally by starting up localstack and running the command below at the root folder
@@ -37,7 +45,7 @@ On AWS EC2, the app can be deployed using any WSGI web server setup like gunicor
 The app needs to be running first before the clients start uploading the files to the bucket.
 
 ## Previous architectural consideration
-This was the previous architecture that I had contemplated. It involves listening for upload event and triggering the conversion process with it. I designed it to implement a queue which caters for situations where the client uploads multiple files at once. I love this architecture because the app does work only when it needs too.
+The diagram below was the previous architecture that I had contemplated. It involves listening for upload event and triggering the conversion process with it. I designed it to implement a queue which caters for situations where the client uploads multiple files at once. I love this architecture because the app does work only when it needs too. I had difficulties implementing it.
 
 ![the former flow for the system](https://res.cloudinary.com/teamhaven/image/upload/v1613113741/bestseller-challenge.png)
 
