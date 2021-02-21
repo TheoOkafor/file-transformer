@@ -10,7 +10,6 @@ from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
 
 
-
 load_dotenv(verbose=True)
 
 logging.basicConfig(
@@ -52,15 +51,17 @@ if is_not_production:
 
 
 class Converter():
+    """The file converter utility class"""
     def get_images(self, images):
+        """Format the images in the item"""
         result = {}
         max_type = 1
         images_dict = {}
         for image in images:
             current_type = int(image.get('type'))
             if max_type < current_type:
-                max_type = current_type
-                images_dict[current_type] = image.get('url')
+                max_type = current_type # store the max image type value
+                images_dict[current_type] = image.get('url') # store the image urls by their type value
         for i in range(1, (max_type + 1)):
             key = 'image_' + str(i)
             if images_dict.get(i, None):
@@ -71,11 +72,12 @@ class Converter():
 
 
     def get_prices(self, prices):
+        """Format the prices in the item"""
         result = []
         for price in prices:
             result.append({
-            'currency': price.currency.contents[0],
-            'value': price.value.contents[0],
+                'currency': price.currency.contents[0],
+                'value': price.value.contents[0],
             })
         return result
     
@@ -146,6 +148,7 @@ def fetch_file_content_from_bucket(s3_connection=None, bucket_name=None, file_ke
     except Exception as e:
         logging.error(f'Error while reading {file_key} from {bucket_name} bucket', exc_info=True)
 
+
 def get_files_to_transform(s3_connection=None, bucket_name=None):
     """Get the list of files to be transformed from the customer's bucket"""
     if not s3_connection:
@@ -183,10 +186,27 @@ def get_json_object(xml_data):
 def make_bucket(s3_connection=None, bucket_name=None, acl='public-read'):
     try:
         if not s3_connection:
-            s3_connection = session.resource('s3')
+            s3_connection = session.client('s3')
 
         response = s3_connection.create_bucket(Bucket=bucket_name, ACL=acl)
         return response
     except Exception as e:
         logging.error(f'Error creating the bucket - {bucket_name}', exc_info=True)
 
+
+def init():
+    """Initialize the environment for development and test"""
+    s3_client = session.client('s3')
+    s3_resource = session.resource('s3')
+    make_bucket(s3_client, CLIENT_S3_BUCKET)
+    make_bucket(s3_client, JSON_S3_BUCKET)
+
+    file_key = 'test-file.xml'
+    file = open(f'src/uploads/{file_key}', "r")
+
+    upload_file_to_bucket(
+        s3_connection=s3_resource,
+        bucket_name=CLIENT_S3_BUCKET,
+        file_key= file_key,
+        data=file.read()
+    )
